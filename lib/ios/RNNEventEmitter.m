@@ -34,6 +34,7 @@ static NSString* const onNavigationButtonPressed	= @"RNN.navigationButtonPressed
 # pragma mark private
 
 -(void)send:(NSString *)eventName body:(id)body {
+	if (!self.bridge) return;
 	[self sendEventWithName:eventName body:body];
 }
 
