@@ -16,7 +16,7 @@ public class ReactGateway {
 
 	public ReactGateway(final NavigationApplication application, final boolean isDebug, final List<ReactPackage> additionalReactPackages) {
 		SoLoader.init(application, false);
-		reactNativeHost = new NavigationReactNativeHost(application, isDebug, additionalReactPackages);
+		reactNativeHost = new NavigationReactNativeHost(application, isDebug, additionalReactPackages, application.getJSMainModuleName());
 		initializer = new NavigationReactInitializer(reactNativeHost.getReactInstanceManager(), isDebug);
 		jsDevReloadHandler = new JsDevReloadHandler(reactNativeHost.getReactInstanceManager());
 	}

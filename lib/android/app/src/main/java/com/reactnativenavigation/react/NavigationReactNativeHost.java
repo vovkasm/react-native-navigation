@@ -12,11 +12,13 @@ import java.util.List;
 public class NavigationReactNativeHost extends ReactNativeHost {
 
 	private final boolean isDebug;
+	private final String mainJSModuleName;
 	private final List<ReactPackage> additionalReactPackages;
 
-	public NavigationReactNativeHost(Application application, boolean isDebug, final List<ReactPackage> additionalReactPackages) {
+	public NavigationReactNativeHost(Application application, boolean isDebug, final List<ReactPackage> additionalReactPackages, final String mainJSModuleName) {
 		super(application);
 		this.isDebug = isDebug;
+		this.mainJSModuleName = mainJSModuleName;
 		this.additionalReactPackages = additionalReactPackages;
 	}
 
@@ -38,5 +40,10 @@ public class NavigationReactNativeHost extends ReactNativeHost {
 			}
 		}
 		return packages;
+	}
+
+	@Override
+	protected String getJSMainModuleName() {
+		return mainJSModuleName;
 	}
 }

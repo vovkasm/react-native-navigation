@@ -31,6 +31,10 @@ public abstract class NavigationApplication extends Application implements React
 
 	public abstract boolean isDebug();
 
+	public String getJSMainModuleName() {
+		return "index.android";
+	}
+
 	@Nullable
 	public abstract List<ReactPackage> createAdditionalReactPackages();
 }
