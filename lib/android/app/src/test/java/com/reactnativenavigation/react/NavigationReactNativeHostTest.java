@@ -17,14 +17,22 @@ public class NavigationReactNativeHostTest extends BaseTest {
 
 	@Test
 	public void getPackagesDefaults() throws Exception {
-		NavigationReactNativeHost uut = new NavigationReactNativeHost(RuntimeEnvironment.application, false, null);
+		NavigationReactNativeHost uut = new NavigationReactNativeHost(
+				RuntimeEnvironment.application,
+				false,
+				null,
+				"index.js");
 		assertThat(uut.getPackages()).hasSize(2).extracting("class").containsOnly(MainReactPackage.class, NavigationPackage.class);
 	}
 
 	@Test
 	public void getPackagesAddsAdditionalPackages() throws Exception {
 		ReactPackage myPackage = mock(ReactPackage.class);
-		NavigationReactNativeHost uut = new NavigationReactNativeHost(RuntimeEnvironment.application, false, Collections.singletonList(myPackage));
+		NavigationReactNativeHost uut = new NavigationReactNativeHost(
+				RuntimeEnvironment.application,
+				false,
+				Collections.singletonList(myPackage),
+				"index.js");
 		assertThat(uut.getPackages()).hasSize(3).containsOnlyOnce(myPackage);
 	}
 
@@ -36,7 +44,8 @@ public class NavigationReactNativeHostTest extends BaseTest {
 				Arrays.<ReactPackage>asList(
 						new MainReactPackage(),
 						new MainReactPackage(),
-						new MainReactPackage()));
+						new MainReactPackage()),
+				"index.js");
 		assertThat(uut.getPackages()).hasSize(2).extracting("class").containsOnly(MainReactPackage.class, NavigationPackage.class);
 	}
 }
