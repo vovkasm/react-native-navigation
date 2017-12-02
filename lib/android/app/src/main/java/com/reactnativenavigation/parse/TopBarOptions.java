@@ -22,15 +22,37 @@ public class TopBarOptions implements DEFAULT_VALUES {
 		return options;
 	}
 
-	public String title = "";
+	public String title = NO_VALUE;
 	@ColorInt
-	public int backgroundColor;
+	public int backgroundColor = NO_COLOR_VALUE;
 	@ColorInt
-	public int textColor;
-	public float textFontSize;
-	public String textFontFamily;
-	public NavigationOptions.BooleanOptions hidden = NavigationOptions.BooleanOptions.False;
-	public NavigationOptions.BooleanOptions animateHide = NavigationOptions.BooleanOptions.False;
+	public int textColor = NO_COLOR_VALUE;
+	public float textFontSize = NO_FLOAT_VALUE;
+	public String textFontFamily = NO_VALUE;
+	public NavigationOptions.BooleanOptions hidden = NavigationOptions.BooleanOptions.NoValue;
+	public NavigationOptions.BooleanOptions animateHide = NavigationOptions.BooleanOptions.NoValue;
+
+	public boolean hasTitle() {
+		return !NO_VALUE.equals(this.title);
+	}
+	public boolean hasBackgroundColor() {
+		return this.backgroundColor != NO_COLOR_VALUE;
+	}
+	public boolean hasTextColor() {
+		return this.textColor != NO_COLOR_VALUE;
+	}
+	public boolean hasTextFontSize() {
+		return this.textFontSize != NO_FLOAT_VALUE;
+	}
+	public boolean hasTextFontFamily() {
+		return !NO_VALUE.equals(this.textFontFamily);
+	}
+	public boolean hasHidden() {
+		return this.hidden != NavigationOptions.BooleanOptions.NoValue;
+	}
+	public boolean hasAnimateHide() {
+		return this.animateHide != NavigationOptions.BooleanOptions.NoValue;
+	}
 
 	void mergeWith(final TopBarOptions other) {
 		if (!NO_VALUE.equals(other.title)) title = other.title;

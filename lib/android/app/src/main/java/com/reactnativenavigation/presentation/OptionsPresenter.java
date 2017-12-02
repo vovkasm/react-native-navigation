@@ -20,12 +20,22 @@ public class OptionsPresenter {
 
 	public void applyOptions(NavigationOptions options) {
 		if (controller != null && controller.getTopBar() != null) {
-			controller.getTopBar().setTitle(options.topBarOptions.title);
-			controller.getTopBar().setBackgroundColor(options.topBarOptions.backgroundColor);
-			controller.getTopBar().setTitleTextColor(options.topBarOptions.textColor);
-			controller.getTopBar().setTitleFontSize(options.topBarOptions.textFontSize);
-			TypefaceLoader typefaceLoader = new TypefaceLoader();
-			controller.getTopBar().setTitleTypeface(typefaceLoader.getTypeFace(controller.getActivity(), options.topBarOptions.textFontFamily));
+			if (options.topBarOptions.hasTitle()) {
+				controller.getTopBar().setTitle(options.topBarOptions.title);
+			}
+			if (options.topBarOptions.hasBackgroundColor()) {
+				controller.getTopBar().setBackgroundColor(options.topBarOptions.backgroundColor);
+			}
+			if (options.topBarOptions.hasTextColor()) {
+				controller.getTopBar().setTitleTextColor(options.topBarOptions.textColor);
+			}
+			if (options.topBarOptions.hasTextFontSize()) {
+				controller.getTopBar().setTitleFontSize(options.topBarOptions.textFontSize);
+			}
+			if (options.topBarOptions.hasTextFontFamily()) {
+				TypefaceLoader typefaceLoader = new TypefaceLoader();
+				controller.getTopBar().setTitleTypeface(typefaceLoader.getTypeFace(controller.getActivity(), options.topBarOptions.textFontFamily));
+			}
 			applyTopbarHiddenOptions(options);
 		}
 	}

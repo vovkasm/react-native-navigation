@@ -55,6 +55,14 @@ public class NavigationOptionsTest extends BaseTest {
 	@Test
 	public void defaultEmptyOptions() throws Exception {
 		NavigationOptions uut = new NavigationOptions();
+		assertThat(uut.topBarOptions.hasTitle()).isFalse();
 		assertThat(uut.topBarOptions.title).isEmpty();
+		assertThat(uut.topBarOptions.hasBackgroundColor()).isFalse();
+		assertThat(uut.topBarOptions.hasTextColor()).isFalse();
+		assertThat(uut.topBarOptions.hasTextFontSize()).isFalse();
+		assertThat(uut.topBarOptions.hasTextFontFamily()).isFalse();
+		assertThat(uut.topBarOptions.hasHidden()).isFalse();
+		assertThat(uut.topBarOptions.hasAnimateHide()).isFalse();
 	}
+
 }
