@@ -32,8 +32,10 @@ public class NavigationEvent {
 	}
 
 	public void sendOnNavigationButtonPressed(String id, String buttonId) {
-		//TODO!
-		//emit(onNavigationButtonPressed, id);
+		WritableMap args = Arguments.createMap();
+		args.putString("containerId", id);
+		args.putString("buttonId", buttonId);
+		emit(onNavigationButtonPressed, args);
 	}
 
 	private void emit(String eventName) {

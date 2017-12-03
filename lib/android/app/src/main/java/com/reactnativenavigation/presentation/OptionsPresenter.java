@@ -1,9 +1,12 @@
 package com.reactnativenavigation.presentation;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.reactnativenavigation.anim.StackAnimator;
 import com.reactnativenavigation.parse.NavigationOptions;
+import com.reactnativenavigation.parse.TopBarButtonOptions;
 import com.reactnativenavigation.utils.TypefaceLoader;
 import com.reactnativenavigation.viewcontrollers.ContainerViewController;
 import com.reactnativenavigation.views.TopbarContainerView;
@@ -35,6 +38,16 @@ public class OptionsPresenter {
 			if (options.topBarOptions.hasTextFontFamily()) {
 				TypefaceLoader typefaceLoader = new TypefaceLoader();
 				controller.getTopBar().setTitleTypeface(typefaceLoader.getTypeFace(controller.getActivity(), options.topBarOptions.textFontFamily));
+			}
+			if (options.rightButtons != null && !options.rightButtons.isEmpty()) {
+				Menu menu = controller.getTopBar().getTitleBar().getMenu();
+				menu.clear();
+				int length = options.rightButtons.size();
+				for (int i = 0; i < length; i++) {
+					TopBarButtonOptions buttonOptions = options.rightButtons.get(i);
+					MenuItem item = menu.add(Menu.NONE, i, Menu.NONE, buttonOptions.title);
+					item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+				}
 			}
 			applyTopbarHiddenOptions(options);
 		}

@@ -38,4 +38,8 @@ public class TestContainerView extends View implements ContainerViewController.C
 	@Override
 	public void sendContainerStop() {
 	}
+
+	@Override
+	public void sendOnNavigationButtonPressed(String buttonId) {
+	}
 }

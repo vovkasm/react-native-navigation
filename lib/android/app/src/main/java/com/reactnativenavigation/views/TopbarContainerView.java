@@ -55,6 +55,11 @@ public class TopbarContainerView extends LinearLayout implements ContainerViewCo
 		containerView.sendContainerStop();
 	}
 
+	@Override
+	public void sendOnNavigationButtonPressed(String buttonId) {
+		containerView.sendOnNavigationButtonPressed(buttonId);
+	}
+
 	public TopBar getTopBar() {
 		return topBar;
 	}

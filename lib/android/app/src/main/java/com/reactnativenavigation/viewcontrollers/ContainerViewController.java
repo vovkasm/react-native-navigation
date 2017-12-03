@@ -2,17 +2,20 @@ package com.reactnativenavigation.viewcontrollers;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.reactnativenavigation.anim.StackAnimator;
 import com.reactnativenavigation.parse.NavigationOptions;
+import com.reactnativenavigation.parse.TopBarButtonOptions;
 import com.reactnativenavigation.presentation.NavigationOptionsListener;
 import com.reactnativenavigation.presentation.OptionsPresenter;
 import com.reactnativenavigation.views.TopBar;
 import com.reactnativenavigation.views.TopbarContainerView;
 
-public class ContainerViewController extends ViewController implements NavigationOptionsListener {
+public class ContainerViewController extends ViewController implements NavigationOptionsListener, Toolbar.OnMenuItemClickListener {
 
 	public interface ContainerViewCreator {
 
@@ -30,6 +33,8 @@ public class ContainerViewController extends ViewController implements Navigatio
 		void sendContainerStart();
 
 		void sendContainerStop();
+
+		void sendOnNavigationButtonPressed(String buttonId);
 
 	}
 
@@ -84,8 +89,21 @@ public class ContainerViewController extends ViewController implements Navigatio
 		containerView = viewCreator.create(getActivity(), getId(), containerName);
 		if (containerView instanceof TopbarContainerView) {
 			topBar = ((TopbarContainerView) containerView).getTopBar();
+			topBar.getTitleBar().setOnMenuItemClickListener(this);
 		}
 		return containerView.asView();
+	}
+
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		int itemId = item.getItemId();
+		if (this.navigationOptions.rightButtons != null && itemId < this.navigationOptions.rightButtons.size()) {
+			TopBarButtonOptions buttonOptions = this.navigationOptions.rightButtons.get(itemId);
+			String buttonId = buttonOptions.id;
+			containerView.sendOnNavigationButtonPressed(buttonId);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
