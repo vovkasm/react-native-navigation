@@ -1,4 +1,3 @@
-import cloneDeep from 'lodash/cloneDeep';
 import map from 'lodash/map';
 import { CommandsObserver } from '../events/CommandsObserver';
 import { NativeCommandsSender } from '../adapters/NativeCommandsSender';
@@ -25,16 +24,15 @@ export class Commands {
   ) {}
 
   public setRoot(simpleApi: LayoutRoot) {
-    const input = cloneDeep(simpleApi);
-    const processedRoot = this.layoutProcessor.process(input.root, CommandName.SetRoot);
+    const processedRoot = this.layoutProcessor.process(simpleApi.root, CommandName.SetRoot);
     const root = this.layoutTreeParser.parse(processedRoot);
 
-    const modals = map(input.modals, (modal) => {
+    const modals = map(simpleApi.modals, (modal) => {
       const processedModal = this.layoutProcessor.process(modal, CommandName.SetRoot);
       return this.layoutTreeParser.parse(processedModal);
     });
 
-    const overlays = map(input.overlays, (overlay: any) => {
+    const overlays = map(simpleApi.overlays, (overlay: any) => {
       const processedOverlay = this.layoutProcessor.process(overlay, CommandName.SetRoot);
       return this.layoutTreeParser.parse(processedOverlay);
     });
@@ -58,18 +56,16 @@ export class Commands {
   }
 
   public setDefaultOptions(options: Options) {
-    const input = cloneDeep(options);
-    this.optionsProcessor.processDefaultOptions(input, CommandName.SetDefaultOptions);
+    this.optionsProcessor.processDefaultOptions(options, CommandName.SetDefaultOptions);
 
-    this.nativeCommandsSender.setDefaultOptions(input);
+    this.nativeCommandsSender.setDefaultOptions(options);
     this.commandsObserver.notify(CommandName.SetDefaultOptions, { options });
   }
 
   public mergeOptions(componentId: string, options: Options) {
-    const input = cloneDeep(options);
-    this.optionsProcessor.processOptions(input, CommandName.MergeOptions);
+    this.optionsProcessor.processOptions(options, CommandName.MergeOptions);
 
-    this.nativeCommandsSender.mergeOptions(componentId, input);
+    this.nativeCommandsSender.mergeOptions(componentId, options);
     this.commandsObserver.notify(CommandName.MergeOptions, { componentId, options });
   }
 
@@ -79,8 +75,7 @@ export class Commands {
   }
 
   public showModal(layout: Layout) {
-    const layoutCloned = cloneDeep(layout);
-    const layoutProcessed = this.layoutProcessor.process(layoutCloned, CommandName.ShowModal);
+    const layoutProcessed = this.layoutProcessor.process(layout, CommandName.ShowModal);
     const layoutNode = this.layoutTreeParser.parse(layoutProcessed);
 
     const commandId = this.uniqueIdProvider.generate(CommandName.ShowModal);
@@ -110,8 +105,7 @@ export class Commands {
   }
 
   public push(componentId: string, simpleApi: Layout) {
-    const input = cloneDeep(simpleApi);
-    const layoutProcessed = this.layoutProcessor.process(input, CommandName.Push);
+    const layoutProcessed = this.layoutProcessor.process(simpleApi, CommandName.Push);
     const layout = this.layoutTreeParser.parse(layoutProcessed);
 
     const commandId = this.uniqueIdProvider.generate(CommandName.Push);
@@ -144,7 +138,7 @@ export class Commands {
   }
 
   public setStackRoot(componentId: string, children: Layout[]) {
-    const input = map(cloneDeep(children), (simpleApi) => {
+    const input = map(children, (simpleApi) => {
       const layoutProcessed = this.layoutProcessor.process(simpleApi, CommandName.SetStackRoot);
       const layout = this.layoutTreeParser.parse(layoutProcessed);
       return layout;
@@ -165,8 +159,7 @@ export class Commands {
   }
 
   public showOverlay(simpleApi: Layout) {
-    const input = cloneDeep(simpleApi);
-    const layoutProcessed = this.layoutProcessor.process(input, CommandName.ShowOverlay);
+    const layoutProcessed = this.layoutProcessor.process(simpleApi, CommandName.ShowOverlay);
     const layout = this.layoutTreeParser.parse(layoutProcessed);
 
     const commandId = this.uniqueIdProvider.generate(CommandName.ShowOverlay);
